@@ -41,7 +41,7 @@ const passwordInvalid = computed(() => {
       </div>
 
       <button 
-        :disabled="passwordInvalid || emailInvalid || !passwordTouched || !emailTouched" type="submit" 
+        :disabled="passwordInvalid || emailInvalid || !passwordTouched || !emailTouched" 
         id="btn"
       >
         Se connecter
