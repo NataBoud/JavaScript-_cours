@@ -22,7 +22,7 @@ const passwordInvalid = computed(() => {
 
 <template>
   <div>
-    <form action="">
+    <form action="#">
       <h3>Sign in</h3>
 
       <div>
