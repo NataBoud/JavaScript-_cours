@@ -1,0 +1,82 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-image: linear-gradient(to top, #ff5227 0%, #ffa488 100%);
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+.calculatrice {
+  background-color: #222;
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  width: 250px;
+  height: 500px;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.ecran {
+  width: 86%;
+  height: 100px;
+  background-color: rgb(216, 227, 233);
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-left: 15px;
+  text-overflow: ellipsis;
+}
+
+.ecranHaut,
+.ecranBas {
+  height: 50%;
+  text-align: right;
+  padding-right: 15px;
+  padding-right: 15px;
+  padding-top: 10px;
+  font-size: 25px;
+  
+}
+
+.touches {
+  display: grid;
+  grid-template-columns: repeat(4, 50px);
+  grid-template-rows: repeat(5, 50px);
+  gap: 7px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.bouton {
+  border: none;
+  font-size: 20px;
+  background-color: #f7f7f7;
+  border-radius: 3px;
+  box-shadow: 0 3px #a8a8a8;
+}
+
+.bouton:active {
+  box-shadow: 0 1px #a8a8a8;
+  transform: translateY(2px);
+}
+
+button[data-key="Backspace"] {
+  background-color: #ff5227;
+  color: white;
+}
+
+button[data-key="Enter"] {
+  grid-column: span 2;
+  background-color: #494949;
+  color: white;
+}
