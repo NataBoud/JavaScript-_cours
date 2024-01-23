@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 
+// const regexpEmailBis = new RegExp('^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$', 'g')
 // const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const inputEmail = ref('')
 const emailTouched = ref(false)
@@ -10,26 +11,35 @@ const passwordTouched = ref(false)
 const emailInvalid = computed(() => {
   // console.log(email.value);
   const regexpEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
-  // const regexpEmailBis = new RegExp('^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$', 'g')
-  return emailTouched.value && !regexpEmail.test(email.value)
+  
+  return emailTouched.value && !regexpEmail.test(inputEmail.value)
 })
 
 const passwordInvalid = computed(() => {
-  return password.value.trim() === '' && passwordTouched.value
+  console.log(inputEmail.value);
+  return inputPassword.value.trim() === '' && passwordTouched.value
 })
 
+
+const submitDisabled = computed(
+  () =>
+    inputPassword.value === "" ||
+    !passwordTouched.value ||
+    !emailTouched.value ||
+    !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(inputEmail.value)
+);
 </script>
 
 <template>
   <div>
-    <form action="#">
-      <h3>Sign in</h3>
+    <form action="">
+      <h3>Connexion</h3>
 
       <div>
         <label for="email">Entrez votre email: </label>
         <input v-model="inputEmail" @input="emailTouched = true" type="email" id="email" size="30" required/>
         <!-- <span v-if="!regex.test(inputEmail)">le mail n'est pas valide</span> -->
-        <span v-if="emailInvalid">le mail n'est pas valide</span>
+        <span v-if="emailInvalid">L'émail n'est pas valide</span>
       </div>
 
 
@@ -37,11 +47,11 @@ const passwordInvalid = computed(() => {
         <label for="password">Entrez votre mot de pass:</label>
         <input v-model="inputPassword" @input="passwordTouched = true" type="password" id="password" size="30" required />
         <!-- <span v-if="inputPassword.trim() !== ''">Password n'est pas valide</span> -->
-        <span v-if="passwordInvalid">Password n'est pas valide</span>
+        <span v-if="passwordInvalid">Le mot n'est pas valide</span>
       </div>
 
       <button 
-        :disabled="passwordInvalid || emailInvalid || !passwordTouched || !emailTouched" 
+        :disabled="submitDisabled" 
         id="btn"
       >
         Se connecter
