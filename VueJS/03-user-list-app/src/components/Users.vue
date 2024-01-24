@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, reactive } from "vue";
 
+
 // const inputEmail = ref("");
 // const emailTouched = ref(false);
 
@@ -19,7 +20,13 @@ const newContact = reactive({
 const contacts = reactive([]);
 
 const addContact = () => {
-  contacts.push(newContact);
+  contacts.push({
+    ...newContact
+  });
+  newContact.inputFirstname = "";
+  newContact.inputLastname = "";
+  newContact.inputNumero = "";
+  newContact.inputEmail = ""
    console.log(contacts);
 };
 
@@ -33,7 +40,7 @@ const addContact = () => {
 <template>
   <h1>Liste des contacts</h1>
   <main>
-    <form action="#">
+    <form action="#" @submit.prevent="addContact">
       <h2>Jouter un contact</h2>
       <div>
         <label for="firstname">Prenom: </label>
@@ -82,13 +89,14 @@ const addContact = () => {
         <!-- <span v-if="emailInvalid">L'émail n'est pas valide</span> -->
       </div>
 
-      <button :disabled="submitDisabled" @click="addContact" id="btn">
+      <button :disabled="submitDisabled"  id="btn">
         Ajouter
       </button>
     </form>
 
     <table>
       <thead>
+        <th>#</th>
         <th>Prénom</th>
         <th>Nom</th>
         <th>Numéro de téléphone</th>
@@ -96,13 +104,14 @@ const addContact = () => {
         <th>Supprimer</th>
       </thead>
       <tbody>
-        <tr v-for="(contact) in contacts" :key="contact.inputFirstname">
+        <tr v-for="(contact, i) in contacts">
+          <td>{{ i + 1 }}</td>
           <td>{{ contact.inputFirstname }}</td>
           <td>{{ contact.inputLastname }}</td>
           <td>{{ contact.inputNumero }}</td>
           <td>{{ contact.inputEmail }}</td>
           <td>
-            <button id="btn-delete" @click="deleteContact(contact)"><b>X</b></button>
+            <button id="btn-delete" @click="contacts.splice(i, 1)"><b>X</b></button>
           </td>
         </tr>
       </tbody>
