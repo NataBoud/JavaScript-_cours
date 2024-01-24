@@ -102,7 +102,7 @@ const addContact = () => {
           <td>{{ contact.inputNumero }}</td>
           <td>{{ contact.inputEmail }}</td>
           <td>
-            <button id="btn-delete" @click="deleteContact(contact)">X</button>
+            <button id="btn-delete" @click="deleteContact(contact)"><b>X</b></button>
           </td>
         </tr>
       </tbody>
