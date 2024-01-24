@@ -32,7 +32,7 @@ const submitDisabled = computed(
 
 <template>
   <div>
-    <form action="">
+    <form action="#">
       <h3>Connexion</h3>
 
       <div>
