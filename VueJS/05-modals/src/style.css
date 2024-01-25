@@ -1,0 +1,29 @@
+body, html {
+    margin: 0;
+    background-color: hsl(0, 0%, 25%);
+}
+
+#app {
+    height: 94dvh;
+    width: 94dvw;
+    margin: 3dvh 3dvw;
+    background-color: rgb(236, 229, 241);
+    border-radius: 1rem;
+    display: grid;
+    grid-template-rows: 1fr 3fr;
+    overflow: hidden;
+    
+}
+
+#app > div:first-child {
+    background-color: rgb(128, 39, 69);
+}
+
+#app > div:last-child {
+    padding: 1.5rem;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 20%));
+    gap: 1rem;
+}
+
