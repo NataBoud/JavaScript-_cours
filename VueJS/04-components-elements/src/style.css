@@ -1,0 +1,12 @@
+/* body, html {
+    margin: 0;
+}
+
+#app {
+    height: 90dvh;
+    width: 90dw;
+    margin: 5dvh 5dw;
+    background-color: rgb(73, 70, 70); display: grid;
+    grid-template-columns: 1fr, 2fr;
+    overflow: hidden;
+} */

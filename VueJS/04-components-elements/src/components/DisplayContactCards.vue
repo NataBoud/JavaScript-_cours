@@ -2,9 +2,9 @@
 import { defineProps, defineEmits } from 'vue';
 import Buttons from './Buttons.vue';
 
-
-const props = defineProps(['cardProps'])
 const emits = defineEmits(['deleteCard']);
+const props = defineProps(['cardProps'])
+
 const deleteCardEmit = () => { emits('deleteCard') }
 
 </script>
