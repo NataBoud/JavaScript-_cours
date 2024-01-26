@@ -4,8 +4,8 @@
 const emits = defineEmits(['modalClose'])
 
 const modalBgClickHandler = () => {
-    emits('modalClose')
-}
+        emits('modalClose')
+    }
 
 </script>
 

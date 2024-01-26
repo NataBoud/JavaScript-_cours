@@ -1,143 +1,134 @@
 <script setup>
 import { ref, computed, reactive } from "vue";
 import { v4 as newId } from "uuid";
-
 import Modal from "./components/Modal.vue";
 
 
+const modalVisible = ref("");
+const resipes = reactive([])
 
-// const recipeFormInfos = reactive({
-//   recipeInput: "",
-//   ingrChoix: "",
-//   nbPerson: 1,
-// });
+const ingredients = ["sucre", "chocolat", "vanille", "farine", "noix", "sel", "levure", "crème fraîche", "farine", "oeufs", "beurre", "crème", "lait"];
+const buttonDisabledComputed = computed(() => { return recipeFormInfos.nbPerson < 1 });
+const incrementCount = () => recipeFormInfos.nbPerson++;
+const decrementCount = () => recipeFormInfos.nbPerson--;
 
-// const addRecipeHandler = () => {
-//       const recipeObj = {
-//           ...recipeFormInfos,
-//           id: newId()
-//       }
-//       recipeFormInfos.push(recipeObj)
-
-//       recipeFormInfos.name = "";
-//       recipeFormInfos.ingrChoix = "";
-//       recipeFormInfos.nbPerson = 1;
-//   }
-
-const resipes = ref([])
-const addRecipeHandler = () => {
-  const recipeObj = {
-    recipeInput: "",
-    ingredients: [],
-    nbPerson: 0,
-   
-  };
-  resipes.value.push(...recipeObj);
-  // resipes.value.push(recipeInput.value);
-
-  ingredients.value = [],
-  nbPerson.value = 0,
-  recipeInput.value = "";
-  modalVisible.value = "";
-};
-
-const ingredients = ["sucre", "chocolat", "vanille", "farine", "citron"];
-const randomPictureURL = "https://source.unsplash.com/random/200x200?cake&sig=" + Math.floor(Math.random() * 100) + 1;
-
-const emits = defineEmits(["deleteContent"]);
-const deletContentClickHandler = () => {
-  emits("deleteContent");
-};
-
-const nbPerson =  ref(1)
-const buttonDisabledComputed = computed(() => { return nbPerson.value < 1 });
-const incrementCount = () => nbPerson.value++;
-const decrementCount = () => nbPerson.value--;
-const displaynbPerson = computed(() => {
-  if (nbPerson.value !== 0) return nbPerson.value;
+const recipeFormInfos = reactive({
+  recipeInput: "",
+  ingredients: [],
+  nbPerson: 0,
 });
 
-// if (localStorage.getItem("resipes")) {
-//   resipes.value = JSON.parse(localStorage.getItem("resipes"));
-// }
+const addRecipeHandler = () => {
+  resipes.push({
+    ...recipeFormInfos,
+    picture: "https://source.unsplash.com/random/200x200?cake&sig=" + Math.floor(Math.random() * 100) + 1,
+    id: newId()
+  });
+  recipeFormInfos.recipeInput = "";
+  recipeFormInfos.ingredients = [];
+  recipeFormInfos.nbPerson = 0;
+  modalVisible.value = ""
+};
 
-const modalVisible = ref("");
+
 let indexEnCoursEdition = 0;
-
-
+const editRecipeHandler = () => {
+  const recipeFound = resipes.find((_, index) => index === indexEnCoursEdition)
+  // resipes[indexEnCoursEdition].recipeInput = recipeFormInfos.recipeInput;
+  // resipes[indexEnCoursEdition].ingredients = recipeFormInfos.ingredients;
+  // resipes[indexEnCoursEdition].nbPerson = recipeFormInfos.nbPerson;
+  recipeFound.recipeInput = recipeFormInfos.recipeInput;
+  recipeFound.ingredients = recipeFormInfos.ingredients;
+  recipeFound.nbPerson = recipeFormInfos.nbPerson;
+  recipeFormInfos.recipeInput = "";
+  recipeFormInfos.ingredients = [];
+  recipeFormInfos.nbPerson = 0;
+  modalVisible.value = ""
+};
 
 const editButtonClickHandler = (index) => {
   indexEnCoursEdition = index;
-  recipeInput.value = resipes.value[index];
+  recipeFormInfos.recipeInput = resipes[index].recipeInput;
+  recipeFormInfos.ingredients = resipes[index].ingredients;
+  recipeFormInfos.nbPerson = resipes[index].nbPerson;
   modalVisible.value = "edit";
 };
 
-const editPrenomHandler = () => {
-  resipes.value[indexEnCoursEdition] = recipeInput.value;
-  // localStorage.setItem("resipes", JSON.stringify(resipes.value));
-  recipeInput.value = "";
-  modalVisible.value = "";
-  console.log(resipes.value);
-};
+const emits = defineEmits(["deleteContent"]);
+const deletContentClickHandler = () => { emits("deleteContent") };
+
 </script>
 
 <template>
   <Teleport to="body">
     <Modal v-if="modalVisible == 'add'" @modal-close="modalVisible = ''">
+
+      <!-- <FormRecipe @add-recipe="resipes.push($event)"/> -->
+
       <form action="#" @submit.prevent="addRecipeHandler">
         <div>
           <label for="recipe">Nom de recette: </label>
-          <input type="text" id="recipe" v-model="recipeInput" />
+          <input type="text" id="recipe" v-model="recipeFormInfos.recipeInput" />
         </div>
 
         <div>
           <label for="ingredients">Vos ingredients: </label>
-          <input
-            type="text"
-            list="ingredients"
-            @input="ingrChoix = $event.target.value"
-          />
-
-          <datalist id="ingredients">
-            <option v-for="ingr in ingredients" :value="ingr"></option>
-          </datalist>
-
-          <ul v-if="ingrChoix">
-            <li
-              v-for="ingrA in ingredients.filter((ingrB) =>
-                ingrB.includes(ingrChoix)
-              )"
-            >
-              {{ ingrA }}
-            </li>
-          </ul>
+          <select multiple v-model="recipeFormInfos.ingredients">
+            <option v-for="ingr in ingredients" :value="ingr">{{ ingr }}</option>
+          </select>
+          <div>
+            <span>Selectionnés:</span>
+            <ul>
+              <li v-for="ingr in recipeFormInfos.ingredients">{{ ingr }}</li>
+            </ul>
+          </div>
         </div>
 
         <div>
           <span>Nombre de personnes</span>
-          <button
-            class="btn"
-            :disabled="buttonDisabledComputed"
-            @click="decrementCount"
-          >
+          <button type="button" class="btn" :disabled="buttonDisabledComputed" @click="decrementCount">
             -
           </button>
-          <span>{{ displaynbPerson }}</span>
-          <button class="btn" @click="incrementCount">+</button>
+          <span>{{ recipeFormInfos.nbPerson }}</span>
+          <button type="button" class="btn" @click="incrementCount">+</button>
         </div>
 
         <button>Ajouter</button>
       </form>
+
     </Modal>
   </Teleport>
 
   <Teleport to="body">
     <Modal v-if="modalVisible === 'edit'" @modal-close="modalVisible = ''">
-      <form action="#" @submit.prevent="editPrenomHandler">
+
+
+      <form action="#" @submit.prevent="editRecipeHandler">
         <div>
-          <label for="firstname">Firstname: </label>
-          <input type="text" id="firstname" v-model="prenomInput" />
+          <label for="recipe">Nom de recette: </label>
+          <input type="text" id="recipe" v-model="recipeFormInfos.recipeInput" />
         </div>
+
+        <div>
+          <label for="ingredients">Vos ingredients: </label>
+          <select multiple v-model="recipeFormInfos.ingredients">
+            <option v-for="ingr in ingredients" :value="ingr">{{ ingr }}</option>
+          </select>
+          <div>
+            <span>Selectionnés:</span>
+            <ul>
+              <li v-for="ingr in recipeFormInfos.ingredients">{{ ingr }}</li>
+            </ul>
+          </div>
+        </div>
+
+        <div>
+          <span>Nombre de personnes</span>
+          <button type="button" class="btn" :disabled="buttonDisabledComputed" @click="decrementCount">-</button>
+          <span>{{ recipeFormInfos.nbPerson }}</span>
+          <button type="button" class="btn" @click="incrementCount">+</button>
+        </div>
+
         <button>Editer</button>
       </form>
     </Modal>
@@ -145,7 +136,7 @@ const editPrenomHandler = () => {
 
   <div>
     <div class="container">
-      <h1>Recettes des Gâteau au Chocolat</h1>
+      <h1>Recettes des Gâteaux</h1>
       <button id="btn" @click="modalVisible = 'add'">
         Ajouter une recette
       </button>
@@ -153,19 +144,17 @@ const editPrenomHandler = () => {
   </div>
 
   <div>
-    <div class="card" v-for="(p, i) in resipes">
-      <img :src="randomPictureURL" alt="Random Cake" />
+    <div class="card" v-for="(r, i) in resipes">
+      <img :src="r.picture" alt="Random Cake" />
       <ul>
-        <!-- TODO: Faire une transition sur les <li> -->
-        <li>
-          {{ p }}
-          <button @click="editButtonClickHandler(i)">Editer</button>
-          <button @click="deletContentClickHandler = resipes.splice(i, 1)">
-            Supprimer
-          </button>
-        </li>
+        <li>{{ r.recipeInput }}</li>
+        <li>{{ r.nbPerson }}</li>
+        <li>{{ r.ingredients.join(', ') }}</li>
+        <button @click="editButtonClickHandler(i)">Editer</button>
+        <button @click="deletContentClickHandler = resipes.splice(i, 1)">Supprimer</button>
       </ul>
     </div>
+
   </div>
 </template>
 
@@ -175,7 +164,8 @@ const editPrenomHandler = () => {
   flex-direction: column;
   justify-content: center;
 }
-div > button {
+
+div>button {
   margin: 0 9.5em;
   background-color: rgb(102, 70, 43);
   padding: 0.65em 0.9em;
@@ -188,7 +178,7 @@ div > button {
   transform-origin: right;
 }
 
-div > button:hover {
+div>button:hover {
   cursor: pointer;
   background-color: rgb(121, 95, 58);
 }
@@ -204,16 +194,17 @@ div > button:hover {
   transform-origin: right;
 }
 
-div > .card {
+div>.card {
   aspect-ratio: 1 / 1.2;
   background-color: rgba(243, 235, 228, 0.891);
   border-radius: 2rem;
   display: grid;
   grid-template: 2fr 2fr 8fr / 1fr;
-  color: hsl(0, 0%, 95%);
+  color: hsl(0, 2%, 8%);
   box-shadow: 2px 2px 4px rgba(34, 33, 32, 0.3);
 }
-.card > img {
+
+.card>img {
   width: 100%;
   border-radius: 2rem 2rem 0 0;
   aspect-ratio: 1 / 1;
