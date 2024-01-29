@@ -86,9 +86,7 @@ const deletContentClickHandler = () => { emits("deleteContent") };
 
         <div>
           <span>Nombre de personnes</span>
-          <button type="button" class="btn" :disabled="buttonDisabledComputed" @click="decrementCount">
-            -
-          </button>
+          <button type="button" class="btn" :disabled="buttonDisabledComputed" @click="decrementCount">-</button>
           <span>{{ recipeFormInfos.nbPerson }}</span>
           <button type="button" class="btn" @click="incrementCount">+</button>
         </div>
@@ -134,7 +132,7 @@ const deletContentClickHandler = () => { emits("deleteContent") };
     </Modal>
   </Teleport>
 
-  <div>
+   <div>
     <div class="container">
       <h1>Recettes des Gâteaux</h1>
       <button id="btn" @click="modalVisible = 'add'">
@@ -154,8 +152,7 @@ const deletContentClickHandler = () => { emits("deleteContent") };
         <button @click="deletContentClickHandler = resipes.splice(i, 1)">Supprimer</button>
       </ul>
     </div>
-
-  </div>
+   </div> 
 </template>
 
 <style scoped>
