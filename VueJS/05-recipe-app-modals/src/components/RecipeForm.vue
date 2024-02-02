@@ -18,9 +18,11 @@ const recipeInfos = reactive({
   title: props.recipe ? props.recipe.title : "",
   description: props.recipe ? props.recipe.description : "",
   ingredients: props.recipe ? props.recipe.ingredients : [],
+  // Pour nbPerson je ne peux pas faire expr. ternaire => cela donne NaN 
   nbPerson: 0,
   timeCooking: props.recipe ? props.recipe.timeCooking : 0,
-  difficultie: props.recipe ? props.recipe.difficultie : 0,
+  // Pour difficultie si je fais une expr. ternaire => pour ajouter une recette, cela n'affiche plus la valeur 0 par default
+  difficultie: 0,
 });
 
 const ingredients = [

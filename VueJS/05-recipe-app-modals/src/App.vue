@@ -19,6 +19,17 @@ const addRecipeHandler = (recipe) => {
   recipeModalFormMode.value = "";
 };
 
+// Ici les valeurs nBperson et difficultie se mettent par default alors qu'ils doivent avoir une valeur donnée par utilisateur lors de la creation de recrette
+const startEditRecipeHandler = (recipeId) => {
+  const recipeFound = recipes.value.find((r) => r.id === recipeId);
+  if (recipeFound) {
+    for (const key in recipeFound) {
+      recipeBeingEdited[key] = recipeFound[key];
+    }
+    recipeModalFormMode.value = "edit";
+  }
+};
+
 const editRecipeHandler = (recipe) => {
   const recipeFound = recipes.value.find((r) => r.id === recipe.id);
   if (recipeFound) {
@@ -30,16 +41,6 @@ const editRecipeHandler = (recipe) => {
     recipeFound.difficultie = recipe.difficultie;
   }
   recipeModalFormMode.value = "";
-};
-
-const startEditRecipeHandler = (recipeId) => {
-  const recipeFound = recipes.value.find((r) => r.id === recipeId);
-  if (recipeFound) {
-    for (const key in recipeFound) {
-      recipeBeingEdited[key] = recipeFound[key];
-    }
-    recipeModalFormMode.value = "edit";
-  }
 };
 
 const deleteRecipeHandler = (recipeId) => {
