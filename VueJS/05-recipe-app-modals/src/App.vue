@@ -11,6 +11,8 @@ const startAddRecipeHandler = () => {
   for (const key in recipeBeingEdited) {
     recipeBeingEdited[key] = "";
   }
+  recipeBeingEdited.nbPerson = 0,
+  recipeBeingEdited.difficultie = 0
   recipeModalFormMode.value = "add";
 };
 

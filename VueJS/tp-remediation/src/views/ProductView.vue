@@ -58,6 +58,7 @@ div {
     align-items: center;
     padding-inline-start: 0;
     display: flex;
+    flex-wrap: wrap;
     padding-bottom: 8rem;
 
     > li {
