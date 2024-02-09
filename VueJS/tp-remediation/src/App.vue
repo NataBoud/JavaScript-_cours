@@ -3,76 +3,58 @@ import { RouterLink, RouterView } from "vue-router";
 import { ref, computed } from "vue";
 
 // Gestion un v-if
-const userStartApp = ref(true)
+const userStartApp = ref(true);
 
 // Basculer sur le composant enfant HomeView
 const startToggle = () => {
-  userStartApp.value = !userStartApp.value
-}
+  userStartApp.value = !userStartApp.value;
+};
 
 //Envoyer le pseudo au composant enfant HomeView
-const pseudo = ref('');
+const pseudo = ref("");
 
 // Définir la méthode pour gérer l'évènement émit par composant enfant HomeView
 const handleUserStartApp = (newValueEmit) => {
   userStartApp.value = newValueEmit;
-  pseudo.value = ""
-  
-}
+  pseudo.value = "";
+};
 
 // sécurité
 const pseudoUnputTouched = ref(false);
-const btnConfirmerDisabled = computed(() => pseudo.value === "" || !pseudoUnputTouched);
-
-// const users = reactive([]);
-// const newUser = reactive({
-//   pseudo: "",
-//   date: new Date(),
-// });
-
-// const addUser = () => {
-//   users.push({
-//     ...newUser,
-//     id: newId(),
-//   });
-//   console.log(users);
-// };
-
-// const logOutHandler = () => { };
-
+const btnConfirmerDisabled = computed(
+  () => pseudo.value === "" || !pseudoUnputTouched
+);
 </script>
 
 <template>
-
   <main>
-
     <div class="connexion" v-if="userStartApp">
       <h1><span>Vue</span><span>2000</span></h1>
-        <label for="pseudo">Veillez entrez un psedeu: </label>
-        <div>
-          <input v-model="pseudo"
-            type="text" 
-            @input="pseudoUnputTouched = true"
-            @change="pseudoUnputTouched = true" 
-          />
-          <button :disabled="btnConfirmerDisabled"
-            @click="startToggle"
-          >
+      <label for="pseudo">Veillez entrez un psedeu: </label>
+      <div>
+        <input
+          v-model="pseudo"
+          type="text"
+          @input="pseudoUnputTouched = true"
+          @change="pseudoUnputTouched = true"
+        />
+        <button :disabled="btnConfirmerDisabled" @click="startToggle">
           Confirmer
-          </button>
-        </div>
+        </button>
+      </div>
     </div>
 
     <div v-else>
-       <RouterView :getPseudo="pseudo" @update:userStartApp="handleUserStartApp"/>
+      <RouterView
+        :getPseudo="pseudo"
+        @update:userStartApp="handleUserStartApp"
+      />
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/product">Product</RouterLink>
       </nav>
     </div>
-
   </main>
- 
 </template>
 
 <style scoped>
@@ -89,11 +71,11 @@ h1 {
   align-items: center;
   margin-bottom: 1rem;
 
-  >label {
+  > label {
     margin-bottom: 0.3rem;
   }
 
-  >div>input {
+  > div > input {
     background-color: hsl(0, 0%, 10%);
     border: hsl(0, 0%, 45%) 0.05rem solid;
     border-radius: 0 0.25rem 0.25rem 0;
@@ -102,7 +84,7 @@ h1 {
     color: hsl(0, 0%, 50%);
   }
 
-  >div>button {
+  > div > button {
     background-color: hsla(160, 100%, 37%, 1);
     border: none;
     border-radius: 0.25em;
@@ -111,13 +93,13 @@ h1 {
     border: hsla(160, 100%, 37%, 1) 0.03rem solid;
   }
 
-  >div>button:is([disabled]) {
+  > div > button:is([disabled]) {
     background-color: hsl(0, 0%, 60%);
     color: hsl(0, 0%, 10%);
     border: hsl(0, 0%, 60%) 0.03rem solid;
   }
 
-  >div>button:not([disabled]):hover {
+  > div > button:not([disabled]):hover {
     transition: 400ms ease;
     background-color: hsla(160, 100%, 37%, 0.8);
   }
