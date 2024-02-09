@@ -1,23 +1,30 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
-import HomeView from "./views/HomeView.vue";
-import { ref, computed, reactive } from "vue";
-import { v4 as newId } from "uuid";
-
+import { ref, computed } from "vue";
 
 // Gestion un v-if
 const userStartApp = ref(true)
 
+// Basculer sur le composant enfant HomeView
+const startToggle = () => {
+  userStartApp.value = !userStartApp.value
+}
 
+//Envoyer le pseudo au composant enfant HomeView
 const pseudo = ref('');
 
+// Définir la méthode pour gérer l'évènement émit par composant enfant HomeView
+const handleUserStartApp = (newValueEmit) => {
+  userStartApp.value = newValueEmit;
+  pseudo.value = ""
+  
+}
+
+// sécurité
 const pseudoUnputTouched = ref(false);
-const btnConfirmerDisabled = computed(
-  () => newUser.pseudo === "" || !pseudoUnputTouched
-);
+const btnConfirmerDisabled = computed(() => pseudo.value === "" || !pseudoUnputTouched);
 
 // const users = reactive([]);
-
 // const newUser = reactive({
 //   pseudo: "",
 //   date: new Date(),
@@ -36,55 +43,46 @@ const btnConfirmerDisabled = computed(
 </script>
 
 <template>
-  <!-- <main v-if="users.length === 0">
-    <h1><span>Vue</span><span>2000</span></h1>
 
-    <form action="#" @submit.prevent="addUser">
-      <label for="pseudo">Veillez entrez un psedeu: </label>
-      <div>
-        <input v-model="newUser.pseudo" type="text" id="pseudo" @input="pseudoUnputTouched = true"
-          @change="pseudoUnputTouched = true" />
-        <button :disabled="btnConfirmerDisabled">Confirmer</button>
-      </div>
-    </form>
-  </main> -->
-  <!-- <HomeView v-for="u in users" :key="u.id" :user="u" @log-out="logOutHandler()" /> -->
   <main>
 
-    <div v-if="userStartApp">
+    <div class="connexion" v-if="userStartApp">
       <h1><span>Vue</span><span>2000</span></h1>
-
         <label for="pseudo">Veillez entrez un psedeu: </label>
         <div>
-          <input v-model="pseudo" type="text" id="pseudo" @input="pseudoUnputTouched = true"
-            @change="pseudoUnputTouched = true" />
-          <button :disabled="btnConfirmerDisabled">Confirmer</button>
+          <input v-model="pseudo"
+            type="text" 
+            @input="pseudoUnputTouched = true"
+            @change="pseudoUnputTouched = true" 
+          />
+          <button :disabled="btnConfirmerDisabled"
+            @click="startToggle"
+          >
+          Confirmer
+          </button>
         </div>
-
     </div>
 
-    <header v-else> 
+    <div v-else>
+       <RouterView :getPseudo="pseudo" @update:userStartApp="handleUserStartApp"/>
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/product">Product</RouterLink>
       </nav>
-      <RouterView />
-    </header>
+    </div>
 
   </main>
-
+ 
 </template>
 
 <style scoped>
 h1 {
   text-align: center;
-
   span:last-child {
     color: hsla(160, 100%, 37%, 1);
   }
 }
-
-form {
+.connexion {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -123,11 +121,6 @@ form {
     transition: 400ms ease;
     background-color: hsla(160, 100%, 37%, 0.8);
   }
-}
-
-header {
-  line-height: 1.5;
-  max-height: 100vh;
 }
 
 nav {
