@@ -1,0 +1,7 @@
+{
+  "name": "imgapp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
