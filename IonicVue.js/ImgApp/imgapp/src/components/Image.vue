@@ -1,14 +1,22 @@
 <script setup lang="ts">
+import { reactive } from "vue";
+import { Image } from '../types/imageType.ts'
+
+const img:Image = reactive({});
+
+ 
+
 
 </script>
 
 <template>
-    
+
      <div id="container">
 
         <strong>Photo</strong>
 
         <form action="#" @submit.prevent="">
+
           <div>
             <label for="name">Titre: </label>
             <input type="text" id="name" />
@@ -18,9 +26,9 @@
             <textarea id="description" cols="5" rows="8" style="resize: none" maxlength="150"></textarea>
           </div>
           <div />
-        
         </form>
       </div>
+
 </template>
 
 <style scoped>
