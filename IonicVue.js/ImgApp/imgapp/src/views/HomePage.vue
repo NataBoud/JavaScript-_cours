@@ -18,7 +18,7 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton } from 
       </ion-header>
 
       <div id="container">
-        <strong>Gallerie Photos</strong>
+        <strong>Home Page Photos</strong>
         <ion-button router-link="/image">Ajouter</ion-button>
         
       </div>
