@@ -18,5 +18,5 @@ export const useImageStore = defineStore('image', () => {
 
 
 
-    return { images, addImage }
+    return { images, addImage, getImageById }
 })

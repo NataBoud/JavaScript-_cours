@@ -1,26 +1,15 @@
 <script setup lang="ts">
-import Base from "@/components/Base.vue";
-import { addOutline } from 'ionicons/icons'
-import { IonButton, IonIcon, } from "@ionic/vue";
+import { reactive } from "vue";
 </script>
 
 <template>
-  <Base page-title="Gallerie" default-back-page="/">
-    <template v-slot:action-end>
-
-      <ion-button router-link="/add">
-        <ion-icon slot="icon-only" :icon="addOutline"></ion-icon>
-      </ion-button>
-
-    </template>
-    <p>Hello</p>
-  </Base>
+  <!-- <div id="container"></div> -->
 </template>
 
 <style scoped>
 /* #container {
   text-align: center;
-  
+
   position: absolute;
   left: 0;
   right: 0;
@@ -36,9 +25,9 @@ import { IonButton, IonIcon, } from "@ionic/vue";
 #container p {
   font-size: 16px;
   line-height: 22px;
-  
+
   color: #8c8c8c;
-  
+
   margin: 0;
 }
 
