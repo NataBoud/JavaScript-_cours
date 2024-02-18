@@ -7,7 +7,7 @@ const router = createRouter({
     {
       path: "/",
       name: "recettes",
-      component: RecettesView
+      component: RecettesView,
     },
     {
       path: "/add-recette",
@@ -18,6 +18,11 @@ const router = createRouter({
       path: "/recette/:id",
       name: "recette-detail",
       component: () => import("../views/RecetteDetailView.vue"),
+    },
+    {
+      path: "/recette-edit/:id",
+      name: "recette-edit",
+      component: () => import("../views/RecetteEditView.vue"),
     },
   ],
 });

@@ -1,10 +1,12 @@
 @import "./base.css";
 
 #app {
-  max-width: 1280px;
+  
   margin: 0 auto;
-  padding: 2rem;
+  padding-left: 10rem;
+  padding-right: 10rem;
   font-weight: normal;
+  
 }
 
 a,
@@ -24,6 +26,7 @@ a,
 #app {
   display: grid;
   grid-template-rows: 1fr 11fr;
+  
 }
 
 /* #app > div:first-child {

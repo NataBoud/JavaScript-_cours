@@ -1,28 +1,23 @@
 <script setup>
-import { reactive, computed } from "vue";
+import { computed } from "vue";
 import { useRecetteListStore } from "@/stores/recette";
+import { useRoute } from "vue-router";
+import { storeToRefs } from "pinia";
 
+const route = useRoute();
 const store = useRecetteListStore();
+const { getOneById } = storeToRefs(store);
+// const { deleteRecette, editRecette } = store;
 
-const recetteInfo = reactive({
-  title: "",
-  description: "",
-  ingredients: [],
-  nbPerson: 0,
-  timeCooking: 0,
-  difficultie: 0,
+const recetteId = String(route.params.id);
+const findRecette = getOneById.value(recetteId);
+
+const buttonDisabledComputed = computed(() => {
+  return findRecette.nbPerson < 1;
 });
 
-function addRecette(recetteInfo) {
-  if (recetteInfo.length === 0) return;
-  store.addRecette(recetteInfo);
-  recetteInfo.title = "";
-  recetteInfo.description = "";
-  recetteInfo.ingredients = [];
-  recetteInfo.nbPerson = 0;
-  recetteInfo.timeCooking = 0;
-  recetteInfo.difficultie = 0;
-}
+const incrementCount = () => findRecette.nbPerson++;
+const decrementCount = () => findRecette.nbPerson--;
 
 const ingredients = [
   "sucre",
@@ -40,23 +35,19 @@ const ingredients = [
   "lait",
 ];
 
-const buttonDisabledComputed = computed(() => {
-  return recetteInfo.nbPerson < 1;
-});
-
-const incrementCount = () => recetteInfo.nbPerson++;
-const decrementCount = () => recetteInfo.nbPerson--;
 </script>
 
 <template>
+  
   <div class="form-content">
+    <h2>Edition de {{ findRecette.title }}</h2>
     <form
       action="#"
-      @submit.prevent="addRecette(recetteInfo), $router.push('/')"
+      @submit.prevent=" $router.push('/')"
     >
       <div>
         <label for="title">Nom de recette: </label>
-        <input type="text" id="title" v-model="recetteInfo.title" />
+        <input type="text" id="title" v-model="findRecette.title" />
       </div>
 
       <div>
@@ -67,13 +58,13 @@ const decrementCount = () => recetteInfo.nbPerson--;
           rows="3"
           style="resize: none"
           maxlength="150"
-          v-model="recetteInfo.description"
+          v-model="findRecette.description"
         ></textarea>
       </div>
 
       <div>
         <label for="ingredients">Vos ingredients: </label>
-        <select multiple v-model="recetteInfo.ingredients">
+        <select multiple v-model="findRecette.ingredients">
           <option v-for="ingr in ingredients" :value="ingr">
             {{ ingr }}
           </option>
@@ -82,7 +73,7 @@ const decrementCount = () => recetteInfo.nbPerson--;
 
       <div>
         <label class="ingredients">Selectionnés:</label>
-        <li v-for="ingr in recetteInfo.ingredients">{{ ingr }}</li>
+        <li v-for="ingr in findRecette.ingredients">{{ ingr }}</li>
       </div>
 
       <div>
@@ -96,7 +87,7 @@ const decrementCount = () => recetteInfo.nbPerson--;
           >
             -
           </button>
-          <span>{{ recetteInfo.nbPerson }}</span>
+          <span>{{ findRecette.nbPerson }}</span>
           <button type="button" class="btn" @click="incrementCount">+</button>
         </div>
       </div>
@@ -109,9 +100,9 @@ const decrementCount = () => recetteInfo.nbPerson--;
           name="time-cooking"
           min="1"
           max="1000"
-          v-model="recetteInfo.timeCooking"
+          v-model="findRecette.timeCooking"
         />
-        <span>{{ recetteInfo.timeCooking }} minutes</span>
+        <span>{{ findRecette.timeCooking }} minutes</span>
       </div>
 
       <div>
@@ -121,16 +112,18 @@ const decrementCount = () => recetteInfo.nbPerson--;
           min="0"
           :max="10"
           id="difficultie"
-          @input="recetteInfo.difficultie = +$event.target.value"
-          :value="recetteInfo.difficultie"
+          @input="findRecette.difficultie = +$event.target.value"
+          :value="findRecette.difficultie"
         />
       </div>
 
       <div>
-        <span>{{ recetteInfo.difficultie }} sur 10</span>
+        <span>{{ findRecette.difficultie }} sur 10</span>
       </div>
-
-      <button>Ajouter</button>
+      <div>
+         <button>Valider</button>
+      </div>
+     
     </form>
   </div>
 </template>
@@ -240,7 +233,7 @@ form {
     margin-left: auto;
   }
 
-  >  button:last-child {
+  > div button:last-child {
     color: hsl(0, 0%, 95%);
     font-size: 1rem;
     border: none;

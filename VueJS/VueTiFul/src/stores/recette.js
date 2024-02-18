@@ -4,6 +4,7 @@ import { v4 as newId } from "uuid";
 export const useRecetteListStore = defineStore("itemList", {
   state: () => ({
     recetteList: [],
+    recetteToEdit: [],
   }),
 
   getters: {
@@ -25,6 +26,6 @@ export const useRecetteListStore = defineStore("itemList", {
       this.recetteList = this.recetteList.filter((x) => {
         return x.id !== recetteId;
       });
-    },
+    }
   },
 });
