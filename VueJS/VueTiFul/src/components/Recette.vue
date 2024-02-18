@@ -23,7 +23,7 @@ const { recetteList } = storeToRefs(store);
     >
       <img
         :src="
-          'https://source.unsplash.com/random/500x500?food&sig=' +
+          'https://source.unsplash.com/random/200x200?food&sig=' +
           Math.floor(Math.random() * 100) +
           1
         "
@@ -58,36 +58,40 @@ const { recetteList } = storeToRefs(store);
   cursor: pointer;
 
   .card {
-    max-width: 25%;
+    width: 23%;
     background-color: aliceblue;
     border-radius: 3rem;
-    display: grid;
+    
     color: hsl(0, 2%, 8%);
     box-shadow: 4px 7px 20px rgba(30, 30, 30, 0.3);
-    aspect-ratio: 1 / .2;
+    aspect-ratio: 1 / 1;
     cursor: pointer;
+    display: grid;
+    grid-template: 2fr 2fr 8fr / 1fr;
     > img {
       width: 100%;
       border-radius: 3rem 3rem 0 0;
-      aspect-ratio: 1 / .9;
+      aspect-ratio: 1 / 1;
       object-fit: cover;
     }
 
     ul {
       align-items: center;
-      padding: 0 1.8rem 1.8rem;
+      margin: 0;
+        padding: 0 10% 10%;
 
       > li:first-child > b {
         font-size: 1.8rem;
-        justify-content: center;
-        align-items: center;
-        display: flex;
+        
+        text-align: center;
+        display: grid;
         font-weight: 600;
         color: hsl(0, 0%, 36%);
            margin-top: .7rem;
       }
       > li {
         list-style-type: none;
+        
         
         .b {
           padding-bottom: 0.3rem;

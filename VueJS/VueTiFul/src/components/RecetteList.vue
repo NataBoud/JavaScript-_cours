@@ -13,8 +13,9 @@ import Recette from "./Recette.vue";
 
 <style scoped>
 .recettes {
-  display: flex;
+  display: grid;
   flex-direction: column;
   align-items: flex-start;
+  
 }
 </style>
