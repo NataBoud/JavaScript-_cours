@@ -26,6 +26,10 @@ export const useRecetteListStore = defineStore("itemList", {
       this.recetteList = this.recetteList.filter((x) => {
         return x.id !== recetteId;
       });
-    }
+    },
+    editRecette(recetteId) {
+      this.recetteToEdit = this.recetteList.find((r) => r.id === recetteId);
+    },
+ 
   },
 });

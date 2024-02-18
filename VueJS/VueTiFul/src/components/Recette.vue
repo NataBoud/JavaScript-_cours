@@ -23,7 +23,7 @@ const { recetteList } = storeToRefs(store);
     >
       <img
         :src="
-          'https://source.unsplash.com/random/400x400?food&sig=' +
+          'https://source.unsplash.com/random/500x500?food&sig=' +
           Math.floor(Math.random() * 100) +
           1
         "
@@ -58,7 +58,7 @@ const { recetteList } = storeToRefs(store);
   cursor: pointer;
 
   .card {
-    max-width: 23.5%;
+    max-width: 25%;
     background-color: aliceblue;
     border-radius: 3rem;
     display: grid;
@@ -69,7 +69,7 @@ const { recetteList } = storeToRefs(store);
     > img {
       width: 100%;
       border-radius: 3rem 3rem 0 0;
-      aspect-ratio: 1 / .8;
+      aspect-ratio: 1 / .9;
       object-fit: cover;
     }
 
@@ -88,7 +88,7 @@ const { recetteList } = storeToRefs(store);
       }
       > li {
         list-style-type: none;
-        padding: 0.1rem 0;
+        
         .b {
           padding-bottom: 0.3rem;
           padding-right: 0.7rem;
